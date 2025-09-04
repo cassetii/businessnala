@@ -2,80 +2,203 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontrol Prospek Marketing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4CAF50">
+    <title>Marketing Prospect App</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1hcmtldGluZyBQcm9zcGVjdCBBcHAiLAogICJzaG9ydF9uYW1lIjogIlByb3NwZWN0IiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJ0aGVtZV9jb2xvciI6ICIjNENBRjUwIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTWpRaUlHaGxhV2RvZEQwaU1qUWlJSFpwWlhkQ2IzZzlJakFnTUNBeU5DQXlOQ0lnZG1WeWMybHZiajBpTVM0eElpQjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaVBnbzhjR0YwYUNCbWFXeHNQU0lqTkVOQlJqVXdJaUJrUFNKTk1USXVNalF0TVRNZ01USXVNalF0TVRNZ09TNHpOaUF6TGpZMExUSXVNalF0TVRNZ05TNHlORzh0TURVZ01UUXVNVFJ5TXk0Mk5DMHlMakkyT1RNZ05DNHdPQzAwTGpZek9UTXRNUzR6Tm5wdE5TNDBNaTB5TGpZNE9USXhMamhwTFRJdU5qa3pPUzB4TGprMU5qSXVOek13TFRVdU1qTXhNaTQzTkRJdE5TNHlNekV6TGpVME9TMHdMakEwTWpZdE5pNHdOQ0l2UGdvOEwzTjJaejQ9IiwKICAgICAgInNpemVzIjogIjI0eDI0IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .mobile-container {
+            max-width: 100%;
+            margin: 0;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
+            min-height: 100vh;
+            position: relative;
         }
 
         .header {
             background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            padding: 30px;
+            padding: 20px 15px;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .header p {
-            font-size: 1.1em;
+            font-size: 0.9em;
             opacity: 0.9;
         }
 
-        .content {
-            padding: 30px;
-        }
-
-        .tab-container {
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e0e0e0;
             display: flex;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 30px;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
-        .tab {
+        .nav-item {
             flex: 1;
-            padding: 15px;
             text-align: center;
-            background: #f5f5f5;
-            border: none;
+            padding: 12px 5px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s ease;
+            border: none;
+            background: none;
+            font-size: 11px;
+            color: #666;
         }
 
-        .tab.active {
-            background: #4CAF50;
-            color: white;
+        .nav-item.active {
+            color: #4CAF50;
+            background: #f0f8f0;
         }
 
-        .tab-content {
+        .nav-item .icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .content {
+            padding: 15px;
+            padding-bottom: 80px;
+        }
+
+        .page {
             display: none;
         }
 
-        .tab-content.active {
+        .page.active {
             display: block;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stats-card.primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .stats-card.warning {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .stats-card.info {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .stats-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stats-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .progress-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Form Styles */
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -87,17 +210,19 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
+            font-size: 0.9em;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
         }
 
         .form-group input:focus,
@@ -105,6 +230,7 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
 
         .form-group textarea {
@@ -112,27 +238,22 @@
             min-height: 100px;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
         .btn {
             background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            padding: 12px 25px;
+            padding: 15px 25px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
             margin: 5px;
+            width: 100%;
+            font-weight: 600;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .btn-secondary {
@@ -147,28 +268,35 @@
             background: linear-gradient(135deg, #ff9800, #f57c00);
         }
 
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .gps-info {
             background: #e8f5e8;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 12px;
             margin-top: 10px;
             font-size: 14px;
             color: #2e7d32;
         }
 
+        /* Prospect Card Styles */
         .prospect-card {
             background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
-        .prospect-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #4CAF50;
+        .prospect-card:active {
+            transform: scale(0.98);
         }
 
         .prospect-header {
@@ -181,13 +309,13 @@
         .prospect-date {
             font-weight: bold;
             color: #4CAF50;
-            font-size: 18px;
+            font-size: 1.1em;
         }
 
         .prospect-status {
-            padding: 6px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -200,44 +328,66 @@
 
         .prospect-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 15px;
         }
 
         .detail-item {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .detail-label {
             font-size: 12px;
             color: #666;
-            margin-bottom: 3px;
             text-transform: uppercase;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-right: 10px;
         }
 
         .detail-value {
             font-weight: 600;
             color: #333;
+            text-align: right;
+            flex-grow: 1;
         }
 
+        .prospect-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .prospect-actions .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Filter Styles */
         .filter-section {
-            background: #f8f9fa;
+            background: white;
             padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
-        .filter-row {
+        .filter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
+            margin-bottom: 15px;
         }
 
         .no-data {
             text-align: center;
-            padding: 50px;
+            padding: 40px 20px;
             color: #666;
             font-style: italic;
         }
@@ -246,7 +396,7 @@
             background: #d4edda;
             color: #155724;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 20px;
             border-left: 4px solid #28a745;
         }
@@ -255,139 +405,214 @@
             background: #f8d7da;
             color: #721c24;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 20px;
             border-left: 4px solid #dc3545;
         }
 
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px 10px;
             }
             
-            .prospect-details {
-                grid-template-columns: 1fr;
+            .content {
+                padding: 10px;
             }
             
-            .filter-row {
+            .form-card,
+            .stats-card,
+            .progress-card,
+            .prospect-card {
+                padding: 15px;
+            }
+            
+            .filter-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* PWA Install Button */
+        .install-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 15px;
+            right: 15px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+            z-index: 99;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="mobile-container">
         <div class="header">
-            <h1>🎯 Kontrol Prospek Marketing</h1>
-            <p>Sistem manajemen prospek untuk tim marketing</p>
+            <h1>🎯 Marketing Prospect</h1>
+            <p>Kelola prospek dengan mudah</p>
         </div>
 
         <div class="content">
-            <div class="tab-container">
-                <button class="tab active" onclick="showTab('add-prospect')">➕ Tambah Prospek</button>
-                <button class="tab" onclick="showTab('view-prospects')">📋 Lihat Prospek</button>
+            <div id="message-container"></div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="dashboard-grid">
+                    <div class="stats-card primary">
+                        <div class="stats-number" id="total-prospects">0</div>
+                        <div class="stats-label">Total Prospek Bulan Ini</div>
+                    </div>
+                    
+                    <div class="stats-card warning">
+                        <div class="stats-number" id="pending-prospects">0</div>
+                        <div class="stats-label">Pending Follow-up</div>
+                    </div>
+                    
+                    <div class="stats-card info">
+                        <div class="stats-number" id="acc-prospects">0</div>
+                        <div class="stats-label">ACC Bulan Ini</div>
+                    </div>
+                </div>
+
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div class="progress-title">Target Bulanan (Paket 10)</div>
+                        <div class="progress-percentage" id="progress-percentage">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">0 dari 10 target tercapai</div>
+                </div>
+
+                <div class="form-card">
+                    <h3 style="margin-bottom: 15px; color: #333;">📊 Ringkasan Status</h3>
+                    <div id="status-summary"></div>
+                </div>
             </div>
 
-            <!-- Tab Tambah Prospek -->
-            <div id="add-prospect" class="tab-content active">
-                <div id="message-container"></div>
-                
-                <form id="prospect-form">
-                    <div class="form-row">
+            <!-- Add Prospect Page -->
+            <div id="add-prospect" class="page">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 20px; color: #333;">➕ Tambah Prospek Baru</h3>
+                    
+                    <form id="prospect-form">
                         <div class="form-group">
-                            <label for="tanggal-prospek">Tanggal Prospek</label>
+                            <label for="tanggal-prospek">📅 Tanggal Prospek</label>
                             <input type="date" id="tanggal-prospek" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="segmentasi">Segmentasi</label>
+                            <label for="segmentasi">🏢 Segmentasi</label>
                             <select id="segmentasi" required>
                                 <option value="">Pilih Segmentasi</option>
-                                <option value="Rumah">Rumah</option>
-                                <option value="Kost">Kost</option>
-                                <option value="Kantor">Kantor</option>
-                                <option value="Hotel">Hotel</option>
-                                <option value="Bank">Bank</option>
-                                <option value="Swasta">Swasta</option>
-                                <option value="FNB">FNB</option>
+                                <option value="Rumah">🏠 Rumah</option>
+                                <option value="Kost">🏠 Kost</option>
+                                <option value="Kantor">🏢 Kantor</option>
+                                <option value="Hotel">🏨 Hotel</option>
+                                <option value="Bank">🏦 Bank</option>
+                                <option value="Swasta">🏭 Swasta</option>
+                                <option value="FNB">🍽️ FNB</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="jenis-prospek">Jenis Prospek</label>
+                            <label for="jenis-prospek">🔧 Jenis Prospek</label>
                             <select id="jenis-prospek" required>
                                 <option value="">Pilih Jenis Prospek</option>
-                                <option value="Maintenance">Maintenance</option>
-                                <option value="Instalasi">Instalasi</option>
-                                <option value="Pengadaan AC">Pengadaan AC</option>
-                                <option value="Project Lengkap">Project Lengkap</option>
+                                <option value="Maintenance">🔧 Maintenance</option>
+                                <option value="Instalasi">⚙️ Instalasi</option>
+                                <option value="Pengadaan AC">❄️ Pengadaan AC</option>
+                                <option value="Project Lengkap">🏗️ Project Lengkap</option>
                             </select>
                         </div>
+
                         <div class="form-group">
-                            <label for="tindak-lanjut">Tindak Lanjut</label>
+                            <label for="tindak-lanjut">📋 Status Tindak Lanjut</label>
                             <select id="tindak-lanjut" required>
-                                <option value="">Pilih Tindak Lanjut</option>
-                                <option value="Penawaran">Penawaran</option>
-                                <option value="Prospek">Prospek</option>
-                                <option value="On Progress">On Progress</option>
-                                <option value="Negosiasi">Negosiasi</option>
-                                <option value="ACC">ACC</option>
+                                <option value="">Pilih Status</option>
+                                <option value="Prospek">🔍 Prospek</option>
+                                <option value="Penawaran">📄 Penawaran</option>
+                                <option value="On Progress">⏳ On Progress</option>
+                                <option value="Negosiasi">💬 Negosiasi</option>
+                                <option value="ACC">✅ ACC</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="lokasi-prospek">Lokasi Prospek</label>
-                        <input type="text" id="lokasi-prospek" placeholder="Masukkan alamat lengkap" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="lokasi-prospek">📍 Lokasi Prospek</label>
+                            <input type="text" id="lokasi-prospek" placeholder="Masukkan alamat lengkap" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Titik Lokasi GPS</label>
-                        <button type="button" class="btn btn-secondary" onclick="getCurrentLocation()">
-                            📍 Set Up Titik GPS
-                        </button>
-                        <div id="gps-info" class="gps-info" style="display: none;"></div>
-                        <input type="hidden" id="latitude">
-                        <input type="hidden" id="longitude">
-                    </div>
+                        <div class="form-group">
+                            <label>🗺️ Titik Lokasi GPS</label>
+                            <button type="button" class="btn btn-secondary" onclick="getCurrentLocation()">
+                                📍 Ambil Lokasi GPS
+                            </button>
+                            <div id="gps-info" class="gps-info" style="display: none;"></div>
+                            <input type="hidden" id="latitude">
+                            <input type="hidden" id="longitude">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="permintaan-owner">Permintaan Owner (Max 500 karakter)</label>
-                        <textarea id="permintaan-owner" maxlength="500" placeholder="Deskripsikan permintaan khusus dari owner"></textarea>
-                        <small id="char-count" style="color: #666;">0/500 karakter</small>
-                    </div>
+                        <div class="form-group">
+                            <label for="permintaan-owner">💭 Permintaan Owner (Max 500 karakter)</label>
+                            <textarea id="permintaan-owner" maxlength="500" placeholder="Deskripsikan permintaan khusus dari owner"></textarea>
+                            <small id="char-count" style="color: #666; font-size: 12px;">0/500 karakter</small>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Upload Foto</label>
-                        <button type="button" class="btn btn-warning" onclick="uploadPhoto()">
-                            📸 Upload Foto ke Google Drive
-                        </button>
-                        <small style="display: block; margin-top: 8px; color: #666;">
-                            Klik tombol untuk mengarahkan ke Google Drive untuk upload foto
-                        </small>
-                    </div>
+                        <div class="form-group">
+                            <label>📸 Kirim Foto via WhatsApp</label>
+                            <button type="button" class="btn btn-whatsapp" onclick="sendPhotoWA()">
+                                <span style="font-size: 20px;">📱</span>
+                                Kirim Foto via WhatsApp
+                            </button>
+                            <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
+                                Foto akan dikirim ke admin via WhatsApp
+                            </small>
+                        </div>
 
-                    <div style="text-align: center; margin-top: 30px;">
-                        <button type="submit" class="btn" style="font-size: 18px; padding: 15px 40px;">
+                        <button type="submit" class="btn">
                             💾 Simpan Prospek
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()" style="font-size: 18px; padding: 15px 40px;">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
                             🔄 Reset Form
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 
-            <!-- Tab Lihat Prospek -->
-            <div id="view-prospects" class="tab-content">
+            <!-- View Prospects Page -->
+            <div id="view-prospects" class="page">
                 <div class="filter-section">
-                    <h3 style="margin-bottom: 15px;">🔍 Filter Prospek</h3>
-                    <div class="filter-row">
+                    <h3 style="margin-bottom: 15px; color: #333;">🔍 Filter Prospek</h3>
+                    <div class="filter-grid">
                         <div class="form-group">
                             <label for="filter-segmentasi">Segmentasi</label>
                             <select id="filter-segmentasi" onchange="applyFilters()">
-                                <option value="">Semua Segmentasi</option>
+                                <option value="">Semua</option>
                                 <option value="Rumah">Rumah</option>
                                 <option value="Kost">Kost</option>
                                 <option value="Kantor">Kantor</option>
@@ -395,50 +620,60 @@
                                 <option value="Bank">Bank</option>
                                 <option value="Swasta">Swasta</option>
                                 <option value="FNB">FNB</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="filter-jenis">Jenis Prospek</label>
-                            <select id="filter-jenis" onchange="applyFilters()">
-                                <option value="">Semua Jenis</option>
-                                <option value="Maintenance">Maintenance</option>
-                                <option value="Instalasi">Instalasi</option>
-                                <option value="Pengadaan AC">Pengadaan AC</option>
-                                <option value="Project Lengkap">Project Lengkap</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="filter-status">Status</label>
                             <select id="filter-status" onchange="applyFilters()">
-                                <option value="">Semua Status</option>
-                                <option value="Penawaran">Penawaran</option>
+                                <option value="">Semua</option>
                                 <option value="Prospek">Prospek</option>
+                                <option value="Penawaran">Penawaran</option>
                                 <option value="On Progress">On Progress</option>
                                 <option value="Negosiasi">Negosiasi</option>
                                 <option value="ACC">ACC</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="filter-tanggal">Tanggal</label>
-                            <input type="date" id="filter-tanggal" onchange="applyFilters()">
-                        </div>
                     </div>
-                    <div style="text-align: center; margin-top: 15px;">
-                        <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filter</button>
-                        <button class="btn btn-warning" onclick="exportData()">📊 Export Data</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="clearFilters()" style="flex: 1;">🗑️ Clear</button>
+                        <button class="btn btn-warning" onclick="exportData()" style="flex: 1;">📊 Export</button>
                     </div>
                 </div>
 
                 <div id="prospects-container">
-                    <div class="no-data">Belum ada data prospek. Silakan tambahkan prospek baru.</div>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showPage('dashboard')">
+                <span class="icon">📊</span>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-item" onclick="showPage('add-prospect')">
+                <span class="icon">➕</span>
+                <span>Tambah</span>
+            </button>
+            <button class="nav-item" onclick="showPage('view-prospects')">
+                <span class="icon">📋</span>
+                <span>Lihat</span>
+            </button>
+        </div>
+
+        <!-- PWA Install Prompt -->
+        <div id="install-prompt" class="install-prompt">
+            <strong>📱 Install Aplikasi</strong><br>
+            Tambahkan ke home screen untuk akses cepat!
+            <button onclick="installPWA()" style="float: right; background: none; border: none; color: white; font-size: 18px;">✖️</button>
         </div>
     </div>
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
         import { 
             getFirestore, 
@@ -450,10 +685,10 @@
             deleteDoc,
             query,
             orderBy,
-            onSnapshot
+            onSnapshot,
+            where
         } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyApnkc7A462AqSG0_mbMGM4SvCjuFwqsF0",
             authDomain: "businessnala-f9440.firebaseapp.com",
@@ -464,27 +699,17 @@
             measurementId: "G-W3D639SCR7"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Make Firebase functions globally available
         window.db = db;
         window.firebaseModules = {
-            collection,
-            addDoc,
-            getDocs,
-            doc,
-            updateDoc,
-            deleteDoc,
-            query,
-            orderBy,
-            onSnapshot
+            collection, addDoc, getDocs, doc, updateDoc, deleteDoc,
+            query, orderBy, onSnapshot, where
         };
 
-        // Load prospects when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            loadProspects();
+            loadDashboardData();
             setupRealTimeListener();
         });
     </script>
@@ -492,26 +717,46 @@
     <script>
         let allProspects = [];
         let filteredProspects = [];
+        let deferredPrompt;
 
-        // Tab functionality
-        function showTab(tabId) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        // PWA Installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-prompt').style.display = 'block';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                });
+            }
+            document.getElementById('install-prompt').style.display = 'none';
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+            document.getElementById(pageId).classList.add('active');
 
-            if (tabId === 'view-prospects') {
+            if (pageId === 'dashboard') {
+                loadDashboardData();
+            } else if (pageId === 'view-prospects') {
                 loadProspects();
             }
         }
 
-        // Set today's date as default
+        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('tanggal-prospek').value = today;
 
-            // Character counter for textarea
+            // Character counter
             const textarea = document.getElementById('permintaan-owner');
             const charCount = document.getElementById('char-count');
             
@@ -547,39 +792,59 @@
                         const gpsInfo = document.getElementById('gps-info');
                         gpsInfo.innerHTML = `
                             <strong>📍 Lokasi GPS berhasil diambil!</strong><br>
-                            Latitude: ${lat.toFixed(6)}<br>
-                            Longitude: ${lng.toFixed(6)}<br>
-                            <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank">Lihat di Google Maps</a>
+                            Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}<br>
+                            <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank" style="color: #4CAF50;">Lihat di Google Maps</a>
                         `;
                         gpsInfo.style.display = 'block';
                         
                         button.innerHTML = '✅ GPS Tersimpan';
-                        button.style.background = '#4CAF50';
+                        button.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
                         button.disabled = false;
 
-                        showMessage('Lokasi GPS berhasil diambil!', 'success');
+                        showMessage('📍 Lokasi GPS berhasil diambil!', 'success');
                     },
                     function(error) {
-                        showMessage('Gagal mengambil lokasi GPS: ' + error.message, 'error');
-                        button.innerHTML = '📍 Set Up Titik GPS';
+                        showMessage('❌ Gagal mengambil lokasi GPS: ' + error.message, 'error');
+                        button.innerHTML = '📍 Ambil Lokasi GPS';
                         button.disabled = false;
-                    }
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
                 );
             } else {
-                showMessage('GPS tidak didukung oleh browser ini', 'error');
+                showMessage('❌ GPS tidak didukung oleh browser ini', 'error');
             }
         }
 
-        // Upload photo functionality
-        function uploadPhoto() {
-            const driveUrl = 'https://drive.google.com/drive/folders/1Fl5ZDbRdcKUgg9Xzbdyyw9BMYzPrjEvL?usp=sharing';
-            window.open(driveUrl, '_blank');
-            showMessage('Browser akan membuka Google Drive untuk upload foto', 'success');
+        // WhatsApp photo function
+        function sendPhotoWA() {
+            const lokasi = document.getElementById('lokasi-prospek').value;
+            const segmentasi = document.getElementById('segmentasi').value;
+            const jenisProspek = document.getElementById('jenis-prospek').value;
+            
+            let message = `📸 *FOTO PROSPEK MARKETING*\n\n`;
+            
+            if (lokasi) message += `📍 Lokasi: ${lokasi}\n`;
+            if (segmentasi) message += `🏢 Segmentasi: ${segmentasi}\n`;
+            if (jenisProspek) message += `🔧 Jenis: ${jenisProspek}\n`;
+            
+            message += `\n📷 Mohon kirim foto prospek untuk lokasi di atas.`;
+            
+            const phoneNumber = '6287846919314';
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            showMessage('📱 WhatsApp terbuka. Kirim foto prospek ke admin!', 'success');
         }
 
         // Form submission
         document.getElementById('prospect-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Menyimpan...';
+            submitBtn.disabled = true;
             
             const formData = {
                 tanggalProspek: document.getElementById('tanggal-prospek').value,
@@ -600,10 +865,14 @@
                 
                 showMessage('✅ Prospek berhasil disimpan!', 'success');
                 resetForm();
+                loadDashboardData();
                 
             } catch (error) {
                 console.error('Error adding document: ', error);
                 showMessage('❌ Gagal menyimpan prospek: ' + error.message, 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
         });
 
@@ -620,13 +889,90 @@
             document.getElementById('char-count').style.color = '#666';
             
             const gpsButton = document.querySelector('[onclick="getCurrentLocation()"]');
-            gpsButton.innerHTML = '📍 Set Up Titik GPS';
+            gpsButton.innerHTML = '📍 Ambil Lokasi GPS';
             gpsButton.style.background = '';
             gpsButton.disabled = false;
         }
 
-        // Load prospects from Firebase
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                const { collection, getDocs, query, where } = window.firebaseModules;
+                const now = new Date();
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                const startOfMonthStr = startOfMonth.toISOString().split('T')[0];
+
+                // Get all prospects for this month
+                const q = query(
+                    collection(window.db, 'prospects'),
+                    where('tanggalProspek', '>=', startOfMonthStr)
+                );
+                const querySnapshot = await getDocs(q);
+                
+                const monthlyProspects = [];
+                querySnapshot.forEach((doc) => {
+                    monthlyProspects.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Calculate statistics
+                const totalProspects = monthlyProspects.length;
+                const pendingProspects = monthlyProspects.filter(p => 
+                    ['Prospek', 'Penawaran', 'On Progress', 'Negosiasi'].includes(p.tindakLanjut)
+                ).length;
+                const accProspects = monthlyProspects.filter(p => p.tindakLanjut === 'ACC').length;
+
+                // Update dashboard
+                document.getElementById('total-prospects').textContent = totalProspects;
+                document.getElementById('pending-prospects').textContent = pendingProspects;
+                document.getElementById('acc-prospects').textContent = accProspects;
+
+                // Update progress (target 10 per month)
+                const target = 10;
+                const percentage = Math.min((totalProspects / target) * 100, 100);
+                
+                document.getElementById('progress-percentage').textContent = `${Math.round(percentage)}%`;
+                document.getElementById('progress-fill').style.width = `${percentage}%`;
+                document.getElementById('progress-text').textContent = `${totalProspects} dari ${target} target tercapai`;
+
+                // Status summary
+                const statusCounts = {};
+                monthlyProspects.forEach(p => {
+                    statusCounts[p.tindakLanjut] = (statusCounts[p.tindakLanjut] || 0) + 1;
+                });
+
+                const statusSummary = document.getElementById('status-summary');
+                statusSummary.innerHTML = Object.entries(statusCounts)
+                    .map(([status, count]) => `
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                            <span>${getStatusIcon(status)} ${status}</span>
+                            <strong>${count}</strong>
+                        </div>
+                    `).join('');
+
+                allProspects = monthlyProspects;
+
+            } catch (error) {
+                console.error('Error loading dashboard: ', error);
+                showMessage('❌ Gagal memuat data dashboard', 'error');
+            }
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'Prospek': '🔍',
+                'Penawaran': '📄', 
+                'On Progress': '⏳',
+                'Negosiasi': '💬',
+                'ACC': '✅'
+            };
+            return icons[status] || '📋';
+        }
+
+        // Load prospects
         async function loadProspects() {
+            const container = document.getElementById('prospects-container');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
             try {
                 const { collection, getDocs, query, orderBy } = window.firebaseModules;
                 const q = query(collection(window.db, 'prospects'), orderBy('createdAt', 'desc'));
@@ -634,10 +980,7 @@
                 
                 allProspects = [];
                 querySnapshot.forEach((doc) => {
-                    allProspects.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
+                    allProspects.push({ id: doc.id, ...doc.data() });
                 });
                 
                 filteredProspects = [...allProspects];
@@ -645,7 +988,7 @@
                 
             } catch (error) {
                 console.error('Error loading prospects: ', error);
-                showMessage('❌ Gagal memuat data prospek', 'error');
+                container.innerHTML = '<div class="no-data">❌ Gagal memuat data prospek</div>';
             }
         }
 
@@ -658,13 +1001,18 @@
                 onSnapshot(q, (querySnapshot) => {
                     allProspects = [];
                     querySnapshot.forEach((doc) => {
-                        allProspects.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
+                        allProspects.push({ id: doc.id, ...doc.data() });
                     });
                     
-                    applyFilters();
+                    // Update dashboard if on dashboard page
+                    if (document.getElementById('dashboard').classList.contains('active')) {
+                        loadDashboardData();
+                    }
+                    
+                    // Update prospects list if on view page
+                    if (document.getElementById('view-prospects').classList.contains('active')) {
+                        applyFilters();
+                    }
                 });
                 
             } catch (error) {
@@ -677,7 +1025,7 @@
             const container = document.getElementById('prospects-container');
             
             if (filteredProspects.length === 0) {
-                container.innerHTML = '<div class="no-data">Tidak ada prospek yang ditemukan.</div>';
+                container.innerHTML = '<div class="no-data">🔍 Tidak ada prospek yang ditemukan</div>';
                 return;
             }
 
@@ -686,7 +1034,7 @@
                 const statusClass = `status-${prospect.tindakLanjut.toLowerCase().replace(' ', '-')}`;
                 
                 return `
-                    <div class="prospect-card" data-id="${prospect.id}">
+                    <div class="prospect-card">
                         <div class="prospect-header">
                             <div class="prospect-date">${date}</div>
                             <div class="prospect-status ${statusClass}">${prospect.tindakLanjut}</div>
@@ -694,39 +1042,37 @@
                         
                         <div class="prospect-details">
                             <div class="detail-item">
-                                <div class="detail-label">Segmentasi</div>
-                                <div class="detail-value">${prospect.segmentasi}</div>
+                                <span class="detail-label">Segmentasi</span>
+                                <span class="detail-value">${prospect.segmentasi}</span>
                             </div>
                             <div class="detail-item">
-                                <div class="detail-label">Jenis Prospek</div>
-                                <div class="detail-value">${prospect.jenisProspek}</div>
+                                <span class="detail-label">Jenis</span>
+                                <span class="detail-value">${prospect.jenisProspek}</span>
                             </div>
                             <div class="detail-item">
-                                <div class="detail-label">Lokasi</div>
-                                <div class="detail-value">${prospect.lokasiProspek}</div>
+                                <span class="detail-label">Lokasi</span>
+                                <span class="detail-value">${prospect.lokasiProspek}</span>
                             </div>
                             ${prospect.latitude && prospect.longitude ? `
                             <div class="detail-item">
-                                <div class="detail-label">GPS</div>
-                                <div class="detail-value">
-                                    <a href="https://maps.google.com/?q=${prospect.latitude},${prospect.longitude}" target="_blank">
-                                        📍 Lihat di Maps
+                                <span class="detail-label">GPS</span>
+                                <span class="detail-value">
+                                    <a href="https://maps.google.com/?q=${prospect.latitude},${prospect.longitude}" target="_blank" style="color: #4CAF50;">
+                                        📍 Maps
                                     </a>
-                                </div>
+                                </span>
                             </div>
                             ` : ''}
                         </div>
                         
                         ${prospect.permintaanOwner ? `
-                        <div style="margin-top: 15px;">
-                            <div class="detail-label">Permintaan Owner</div>
-                            <div class="detail-value" style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-top: 5px;">
-                                ${prospect.permintaanOwner}
-                            </div>
+                        <div style="margin-top: 15px; background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                            <div class="detail-label" style="margin-bottom: 5px;">Permintaan Owner</div>
+                            <div style="font-size: 14px; color: #333;">${prospect.permintaanOwner}</div>
                         </div>
                         ` : ''}
                         
-                        <div style="margin-top: 20px; text-align: right;">
+                        <div class="prospect-actions">
                             <button class="btn btn-secondary" onclick="editProspect('${prospect.id}')">
                                 ✏️ Edit
                             </button>
@@ -744,12 +1090,17 @@
             const prospect = allProspects.find(p => p.id === id);
             if (!prospect) return;
 
+            const statuses = ['Prospek', 'Penawaran', 'On Progress', 'Negosiasi', 'ACC'];
+            let statusOptions = statuses.map(status => 
+                status === prospect.tindakLanjut ? `${status} ← (Current)` : status
+            ).join('\n');
+
             const newStatus = prompt(
-                `Edit Status Tindak Lanjut untuk prospek ini:\n\nPilihan: Penawaran, On Progress, Negosiasi, ACC, Prospek\n\nStatus saat ini: ${prospect.tindakLanjut}`,
+                `Edit Status Tindak Lanjut:\n\n${statusOptions}\n\nMasukkan status baru:`,
                 prospect.tindakLanjut
             );
 
-            if (newStatus && ['Penawaran', 'On Progress', 'Negosiasi', 'ACC', 'Prospek'].includes(newStatus)) {
+            if (newStatus && statuses.includes(newStatus)) {
                 try {
                     const { doc, updateDoc } = window.firebaseModules;
                     await updateDoc(doc(window.db, 'prospects', id), {
@@ -770,7 +1121,7 @@
 
         // Delete prospect
         async function deleteProspect(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus prospek ini?')) {
+            if (confirm('❌ Apakah Anda yakin ingin menghapus prospek ini?')) {
                 try {
                     const { doc, deleteDoc } = window.firebaseModules;
                     await deleteDoc(doc(window.db, 'prospects', id));
@@ -787,15 +1138,11 @@
         // Apply filters
         function applyFilters() {
             const segmentasi = document.getElementById('filter-segmentasi').value;
-            const jenis = document.getElementById('filter-jenis').value;
             const status = document.getElementById('filter-status').value;
-            const tanggal = document.getElementById('filter-tanggal').value;
 
             filteredProspects = allProspects.filter(prospect => {
                 return (!segmentasi || prospect.segmentasi === segmentasi) &&
-                       (!jenis || prospect.jenisProspek === jenis) &&
-                       (!status || prospect.tindakLanjut === status) &&
-                       (!tanggal || prospect.tanggalProspek === tanggal);
+                       (!status || prospect.tindakLanjut === status);
             });
 
             displayProspects();
@@ -804,9 +1151,7 @@
         // Clear filters
         function clearFilters() {
             document.getElementById('filter-segmentasi').value = '';
-            document.getElementById('filter-jenis').value = '';
             document.getElementById('filter-status').value = '';
-            document.getElementById('filter-tanggal').value = '';
             
             filteredProspects = [...allProspects];
             displayProspects();
@@ -855,11 +1200,22 @@
             const messageClass = type === 'success' ? 'success-message' : 'error-message';
             
             container.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            container.scrollIntoView({ behavior: 'smooth' });
             
             setTimeout(() => {
                 container.innerHTML = '';
             }, 5000);
         }
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
