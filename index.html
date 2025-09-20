@@ -578,6 +578,17 @@
                 </div>
 
                 <div class="form-card">
+                    <h3 style="margin-bottom: 15px; color: #333;">🔧 Debug & Test</h3>
+                    <button class="btn btn-secondary" onclick="testFirebaseConnection()">
+                        🔍 Test Firebase Connection
+                    </button>
+                    <button class="btn btn-warning" onclick="manualLoadData()">
+                        🔄 Manual Load Data
+                    </button>
+                    <div id="debug-info" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-family: monospace; font-size: 12px; display: none;"></div>
+                </div>
+
+                <div class="form-card">
                     <h3 style="margin-bottom: 15px; color: #333;">📊 Ringkasan Status</h3>
                     <div id="status-summary"></div>
                 </div>
@@ -794,8 +805,8 @@
             measurementId: "G-W3D639SCR7"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const firebaseApp = initializeApp(firebaseConfig);
+        const db = getFirestore(firebaseApp);
 
         window.db = db;
         window.firebaseModules = {
@@ -805,23 +816,33 @@
 
         // Mark Firebase as ready
         window.firebaseReady = true;
+        console.log('Firebase initialized successfully');
         
         // Trigger initial load after Firebase is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        } else {
-            initializeApp();
-        }
-
-        function initializeApp() {
-            if (window.firebaseReady && window.appInitialized) {
-                loadDashboardData();
-                setupRealTimeListener();
+        function initializeFirebaseApp() {
+            console.log('Initializing Firebase app...');
+            if (window.firebaseReady) {
+                console.log('Loading dashboard data...');
+                if (typeof loadDashboardData === 'function') {
+                    loadDashboardData();
+                }
+                if (typeof setupRealTimeListener === 'function') {
+                    setupRealTimeListener();
+                }
             }
         }
 
-        // Export initializeApp for use in main script
-        window.initializeFirebaseApp = initializeApp;
+        // Export for use in main script
+        window.initializeFirebaseApp = initializeFirebaseApp;
+        
+        // Auto initialize if DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initializeFirebaseApp, 100);
+            });
+        } else {
+            setTimeout(initializeFirebaseApp, 100);
+        }
     </script>
 
     <script>
@@ -851,17 +872,23 @@
 
         // Page Navigation
         function showPage(pageId) {
+            console.log('Switching to page:', pageId);
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             
             event.target.closest('.nav-item').classList.add('active');
             document.getElementById(pageId).classList.add('active');
 
-            if (pageId === 'dashboard') {
-                loadDashboardData();
-            } else if (pageId === 'view-prospects') {
-                loadProspects();
-            }
+            // Wait for Firebase and load data
+            waitForFirebase(() => {
+                if (pageId === 'dashboard') {
+                    console.log('Loading dashboard...');
+                    loadDashboardData();
+                } else if (pageId === 'view-prospects') {
+                    console.log('Loading prospects...');
+                    loadProspects();
+                }
+            });
         }
 
         // Wait for Firebase to be ready
@@ -1059,16 +1086,20 @@
 
         // Load dashboard data
         async function loadDashboardData() {
+            console.log('loadDashboardData called');
             if (!window.firebaseModules) {
-                console.log('Firebase not ready yet for dashboard');
+                console.log('Firebase modules not ready yet for dashboard');
                 return;
             }
             
             try {
+                console.log('Loading dashboard data from Firebase...');
                 const { collection, getDocs, query, where } = window.firebaseModules;
                 const now = new Date();
                 const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
                 const startOfMonthStr = startOfMonth.toISOString().split('T')[0];
+
+                console.log('Querying prospects from:', startOfMonthStr);
 
                 // Get all prospects for this month
                 const q = query(
@@ -1081,6 +1112,8 @@
                 querySnapshot.forEach((doc) => {
                     monthlyProspects.push({ id: doc.id, ...doc.data() });
                 });
+
+                console.log('Found prospects:', monthlyProspects.length);
 
                 // Calculate statistics
                 const totalProspects = monthlyProspects.length;
@@ -1109,19 +1142,24 @@
                 });
 
                 const statusSummary = document.getElementById('status-summary');
-                statusSummary.innerHTML = Object.entries(statusCounts)
-                    .map(([status, count]) => `
-                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
-                            <span>${getStatusIcon(status)} ${status}</span>
-                            <strong>${count}</strong>
-                        </div>
-                    `).join('');
+                if (Object.keys(statusCounts).length > 0) {
+                    statusSummary.innerHTML = Object.entries(statusCounts)
+                        .map(([status, count]) => `
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                                <span>${getStatusIcon(status)} ${status}</span>
+                                <strong>${count}</strong>
+                            </div>
+                        `).join('');
+                } else {
+                    statusSummary.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Belum ada data prospek bulan ini</div>';
+                }
 
                 allProspects = monthlyProspects;
+                console.log('Dashboard updated successfully');
 
             } catch (error) {
                 console.error('Error loading dashboard: ', error);
-                showMessage('❌ Gagal memuat data dashboard', 'error');
+                showMessage('Gagal memuat data dashboard: ' + error.message, 'error');
             }
         }
 
@@ -1138,8 +1176,9 @@
 
         // Load prospects
         async function loadProspects() {
+            console.log('loadProspects called');
             if (!window.firebaseModules) {
-                console.log('Firebase not ready yet for prospects');
+                console.log('Firebase modules not ready yet for prospects');
                 return;
             }
             
@@ -1147,6 +1186,7 @@
             container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 
             try {
+                console.log('Loading prospects from Firebase...');
                 const { collection, getDocs, query, orderBy } = window.firebaseModules;
                 const q = query(collection(window.db, 'prospects'), orderBy('createdAt', 'desc'));
                 const querySnapshot = await getDocs(q);
@@ -1156,6 +1196,8 @@
                     allProspects.push({ id: doc.id, ...doc.data() });
                 });
                 
+                console.log('Loaded prospects:', allProspects.length);
+                
                 filteredProspects = [...allProspects];
                 currentDisplayIndex = 0;
                 displayedProspects = [];
@@ -1163,7 +1205,7 @@
                 
             } catch (error) {
                 console.error('Error loading prospects: ', error);
-                container.innerHTML = '<div class="no-data">❌ Gagal memuat data prospek</div>';
+                container.innerHTML = '<div class="no-data">Gagal memuat data prospek: ' + error.message + '</div>';
             }
         }
 
@@ -1445,6 +1487,57 @@
             
             window.URL.revokeObjectURL(url);
             showMessage('✅ Data berhasil diekspor!', 'success');
+        }
+
+        // Debug functions
+        function testFirebaseConnection() {
+            const debugInfo = document.getElementById('debug-info');
+            debugInfo.style.display = 'block';
+            
+            let debugText = '🔍 Testing Firebase Connection...\n\n';
+            debugText += `Firebase Ready: ${window.firebaseReady || false}\n`;
+            debugText += `Firebase Modules: ${window.firebaseModules ? 'Available' : 'Not Available'}\n`;
+            debugText += `Database: ${window.db ? 'Connected' : 'Not Connected'}\n`;
+            debugText += `App Initialized: ${window.appInitialized || false}\n\n`;
+            
+            if (window.firebaseModules) {
+                debugText += 'Testing database query...\n';
+                
+                const { collection, getDocs } = window.firebaseModules;
+                getDocs(collection(window.db, 'prospects'))
+                    .then((querySnapshot) => {
+                        debugText += `✅ Success! Found ${querySnapshot.size} documents in prospects collection\n`;
+                        debugInfo.textContent = debugText;
+                        
+                        if (querySnapshot.size === 0) {
+                            debugText += '\n⚠️ No data found. Try adding some data first.\n';
+                        }
+                        
+                        debugInfo.textContent = debugText;
+                    })
+                    .catch((error) => {
+                        debugText += `❌ Database query failed: ${error.message}\n`;
+                        debugInfo.textContent = debugText;
+                    });
+            } else {
+                debugText += '❌ Firebase modules not available\n';
+            }
+            
+            debugInfo.textContent = debugText;
+        }
+
+        function manualLoadData() {
+            console.log('Manual load data triggered');
+            showMessage('🔄 Memuat data secara manual...', 'success');
+            
+            if (window.firebaseReady) {
+                loadDashboardData();
+                if (document.getElementById('view-prospects').classList.contains('active')) {
+                    loadProspects();
+                }
+            } else {
+                showMessage('❌ Firebase belum siap', 'error');
+            }
         }
 
         // Show message
